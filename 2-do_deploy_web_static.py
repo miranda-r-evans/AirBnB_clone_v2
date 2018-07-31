@@ -4,8 +4,11 @@ fabric commands for server upload
 '''
 
 from datetime import datetime
-from fabric.operations import local, put, run
+from fabric.operations import local, put, run, env
 
+
+env.hosts = ['35.229.102.255', '35.231.130.210']
+env.user = 'ubuntu'
 
 def do_pack():
     '''
@@ -23,6 +26,7 @@ def do_deploy(archive_path):
     '''
     puts files onto server
     '''
+
 
     filename = archive_path.partition('/')[2]
     data_path = '/data/web_static/releases/' + filename.partition('.')[0]
