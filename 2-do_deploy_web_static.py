@@ -6,9 +6,9 @@ fabric commands for server upload
 from datetime import datetime
 from fabric.operations import local, put, run, env
 
-
 env.hosts = ['35.229.102.255', '35.231.130.210']
 env.user = 'ubuntu'
+
 
 def do_pack():
     '''
@@ -22,11 +22,11 @@ def do_pack():
         return path
     return None
 
+
 def do_deploy(archive_path):
     '''
     puts files onto server
     '''
-
 
     filename = archive_path.partition('/')[2]
     data_path = '/data/web_static/releases/' + filename.partition('.')[0]
@@ -36,11 +36,13 @@ def do_deploy(archive_path):
 
     if run('mkdir -p {}'.format(data_path)).failed is True:
         return False
-    if run('tar -xzf /tmp/{} -C {}'.format(filename, data_path)).failed is True:
+    my_command = 'tar -xzf /tmp/{} -C {}'.format(filename, data_path)
+    if run(my_command).failed is True:
         return False
     if run('rm /tmp/{}'.format(filename)).failed is True:
         return False
-    if run('mv {}/web_static/* {}'.format(data_path, data_path)).failed is True:
+    my_command = 'mv {}/web_static/* {}'.format(data_path, data_path)
+    if run(my_command).failed is True:
         return False
     if run('rm -rf {}/web_static'.format(data_path)).failed is True:
         return False
