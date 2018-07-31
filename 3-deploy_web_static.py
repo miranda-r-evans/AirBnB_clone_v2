@@ -31,26 +31,29 @@ def do_deploy(archive_path):
     filename = archive_path.partition('/')[2]
     data_path = '/data/web_static/releases/' + filename.partition('.')[0]
 
-    if put(archive_path, '/tmp/{}'.format(filename)).failed is True:
-        return False
+    try:
+        if put(archive_path, '/tmp/{}'.format(filename)).failed is True:
+            return False
 
-    if run('mkdir -p {}'.format(data_path)).failed is True:
-        return False
-    my_command = 'tar -xzf /tmp/{} -C {}'.format(filename, data_path)
-    if run(my_command).failed is True:
-        return False
-    if run('rm /tmp/{}'.format(filename)).failed is True:
-        return False
-    my_command = 'mv {}/web_static/* {}'.format(data_path, data_path)
-    if run(my_command).failed is True:
-        return False
-    if run('rm -rf {}/web_static'.format(data_path)).failed is True:
-        return False
-    if run('rm -rf /data/web_static/current').failed is True:
-        return False
-    my_command = 'ln -s {} /data/web_static/current'.format(data_path)
-    if run(my_command).failed is True:
-        return False
+            if run('mkdir -p {}'.format(data_path)).failed is True:
+                return False
+            my_command = 'tar -xzf /tmp/{} -C {}'.format(filename, data_path)
+            if run(my_command).failed is True:
+                return False
+            if run('rm /tmp/{}'.format(filename)).failed is True:
+                return False
+            my_command = 'mv {}/web_static/* {}'.format(data_path, data_path)
+            if run(my_command).failed is True:
+                return False
+            if run('rm -rf {}/web_static'.format(data_path)).failed is True:
+                return False
+            if run('rm -rf /data/web_static/current').failed is True:
+                return False
+            my_command = 'ln -s {} /data/web_static/current'.format(data_path)
+            if run(my_command).failed is True:
+                return False
+        except:
+            return False
 
     return True
 
