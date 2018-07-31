@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/usr/bin/env bash
 # configures nginx to serve from /web_static folder
 apt-get -y update
 apt-get install -y nginx
