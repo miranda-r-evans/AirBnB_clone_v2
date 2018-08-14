@@ -25,7 +25,8 @@ def hbnb():
                       for state in all_states})
     all_amenities = list(storage.all('Amenity').values())
     return render_template('10-hbnb_filters.html',
-                           states_cities=states_cities, amenities=all_amenities)
+                           states_cities=states_cities,
+                           amenities=all_amenities)
 
 
 @app.teardown_appcontext
