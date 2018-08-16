@@ -6,7 +6,7 @@ starts a Flask web app
 import sys
 import os
 sys.path.append(os.getcwd())
-from flask import Flask, render_template
+from flask import Flask, render_template, abort
 from models import storage
 from models.state import State
 from models.city import City
@@ -41,7 +41,10 @@ def one_state(id=None):
         return render_template('7-states_list.html', all_states=all_states)
     all_states = storage.all('State')
     all_cities = list(storage.all('City').values())
-    my_state = all_states['State.{}'.format(id)]
+    try:
+        my_state = all_states['State.{}'.format(id)]
+    except:
+        return abort(404)
     my_cities = [city for city in all_cities if city.state_id == my_state.id]
     return render_template('9-states.html', state=my_state, cities=my_cities)
 
@@ -52,6 +55,7 @@ def close_storage(error):
         closes out storage
     '''
     storage.close()
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
