@@ -44,7 +44,7 @@ def one_state(id=None):
     try:
         my_state = all_states['State.{}'.format(id)]
     except:
-        return abort(404)
+        return render_template('9-states.html', state=None, cities=None)
     my_cities = [city for city in all_cities if city.state_id == my_state.id]
     return render_template('9-states.html', state=my_state, cities=my_cities)
 
